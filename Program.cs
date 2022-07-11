@@ -7,7 +7,7 @@ var connectionString = builder.Configuration.GetConnectionString("PostgresConnec
 builder.Services.AddDbContext<DownloadAppContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddDefaultIdentity<UserIdentity>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<DownloadAppContext>();;
+    .AddEntityFrameworkStores<DownloadAppContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
