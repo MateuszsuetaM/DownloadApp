@@ -2,6 +2,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using DownloadApp.Areas.Identity.Data;
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DownloadAppContextConnection") ?? throw new InvalidOperationException("Connection string 'DownloadAppContextConnection' not found.");
+
+builder.Services.AddDbContext<DownloadAppContext>(options =>
+    options.UseSqlServer(connectionString));;
+
+builder.Services.AddDefaultIdentity<UserIdentity>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddEntityFrameworkStores<DownloadAppContext>();;
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection") ?? throw new InvalidOperationException("Connection string 'PostgresConnection' not found.");
 
 builder.Services.AddDbContext<DownloadAppContext>(options => options.UseNpgsql(connectionString));
