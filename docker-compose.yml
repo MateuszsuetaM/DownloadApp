@@ -1,0 +1,11 @@
+version: '3.7'
+services:
+    apiservice:
+#        image: ./Dockerfile
+        build: .
+        volumes:
+          - type: bind
+            target: /Files
+            source: C:\TEST\downloadApp
+        ports:
+          - "5000:80"
