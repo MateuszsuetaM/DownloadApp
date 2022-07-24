@@ -1,11 +1,41 @@
 version: '3.7'
+networks:
+  api-dev:
+    driver: "bridge"
 services:
+    db:
+        image: postgres:latest
+        container_name: downloadAppDB
+        environment:
+          POSTGRES_USER: "postgres"
+          POSTGRES_PASSWORD: "fajnit1"
+          POSTGRES_DB: "DownloadApp"
+        ports:
+          - "5432:5432"
+        networks:
+          - api-dev
+        volumes:
+          - ./db-data/:/var/lib/postgresql/data/
     apiservice:
 #        image: ./Dockerfile
         build: .
+        restart: always
         volumes:
           - type: bind
             target: /Files
-            source: C:\TEST\downloadApp
+            source: C:\TEST\downloadApp\Files
         ports:
           - "5000:80"
+        depends_on:
+          - db
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+        networks: 
+          - api-dev
+#        services-network:
+#          aliases:
+#            - web
+#networks:
+#  services-network:
+#    name: services-network
+#    driver: bridge

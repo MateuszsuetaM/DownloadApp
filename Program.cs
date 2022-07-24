@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 var connectionString = builder.Configuration.GetConnectionString("PostgresConnection") ?? throw new InvalidOperationException("Connection string 'PostgresConnection' not found.");
-builder.Services.AddDbContext<DownloadAppContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<DownloadAppContext>(options => options.UseNpgsql(connectionString, options=>options.EnableRetryOnFailure()));
 
 builder.Services.AddDefaultIdentity<UserIdentity>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<DownloadAppContext>();
